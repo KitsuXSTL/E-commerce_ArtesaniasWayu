@@ -1,0 +1,37 @@
+{
+  "name": "artesanias-wayu",
+  "version": "1.0.0",
+  "description": "E-commerce full-stack para Artesanías Wayú, negocio de artesanías colombianas en Bogotá",
+  "main": "backend/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KitsuXSTL/E-commerce_ArtesaniasWayu.git"
+  },
+  "keywords": [
+    "ecommerce",
+    "nodejs",
+    "express",
+    "mongodb",
+    "artesanias"
+  ],
+  "author": "Juan Sebastián Torres Agudelo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KitsuXSTL/E-commerce_ArtesaniasWayu/issues"
+  },
+  "homepage": "https://github.com/KitsuXSTL/E-commerce_ArtesaniasWayu#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
