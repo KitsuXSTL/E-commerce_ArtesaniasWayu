@@ -14,9 +14,15 @@ app.use(express.static(path.join(__dirname, '../frontend/public')));
 app.use('/css', express.static(path.join(__dirname, '../frontend/css')));
 app.use('/js', express.static(path.join(__dirname, '../frontend/js')));
 
+// Rutas de la API
+app.use('/api/products', require('./routes/productRoutes'));
+
 // Ruta de prueba
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'API funcionando' });
 });
+
+// Manejo centralizado de errores (debe ir al final)
+app.use(require('./middlewares/errorHandler'));
 
 module.exports = app;
