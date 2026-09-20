@@ -53,7 +53,7 @@ const updateProduct = async (req, res, next) => {
     const producto = await Product.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true, runValidators: true }
+      { returnDocument: 'after', runValidators: true }
     );
 
     if (!producto) {
@@ -72,7 +72,7 @@ const deleteProduct = async (req, res, next) => {
     const producto = await Product.findByIdAndUpdate(
       req.params.id,
       { activo: false },
-      { new: true }
+      { returnDocument: 'after' }
     );
 
     if (!producto) {
