@@ -1,14 +1,15 @@
 openapi: 3.0.3
 
 info:
-  title: API Artesanías Wayú
+  title: API Artesanías y Café Luci
   description: |
     API REST para la gestión del catálogo de productos artesanales
-    de Artesanías Wayú, negocio local ubicado en Bogotá D.C., Colombia.
+    y café de Artesanías y Café Luci, negocio local ubicado en
+    Bogotá D.C., Colombia.
   version: 1.0.0
   contact:
     name: Juan Sebastián Torres Agudelo
-    url: https://github.com/KitsuXSTL/E-commerce_ArtesaniasWayu
+    url: https://github.com/KitsuXSTL/artesanias-cafe-luci
   license:
     name: MIT
 
