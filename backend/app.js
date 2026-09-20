@@ -1,3 +1,6 @@
+const fs = require('fs');
+const YAML = require('yaml');
+const swaggerUi = require('swagger-ui-express');
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -21,6 +24,12 @@ app.use('/api/products', require('./routes/productRoutes'));
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'API funcionando' });
 });
+
+// Documentación interactiva de la API (OpenAPI 3.0)
+const openapiDoc = YAML.parse(
+  fs.readFileSync(path.join(__dirname, 'docs/openapi.yaml'), 'utf8')
+);
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(openapiDoc));
 
 // Manejo centralizado de errores (debe ir al final)
 app.use(require('./middlewares/errorHandler'));

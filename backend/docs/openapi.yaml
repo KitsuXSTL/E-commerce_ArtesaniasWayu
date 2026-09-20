@@ -1,0 +1,330 @@
+openapi: 3.0.3
+
+info:
+  title: API Artesanías Wayú
+  description: |
+    API REST para la gestión del catálogo de productos artesanales
+    de Artesanías Wayú, negocio local ubicado en Bogotá D.C., Colombia.
+  version: 1.0.0
+  contact:
+    name: Juan Sebastián Torres Agudelo
+    url: https://github.com/KitsuXSTL/E-commerce_ArtesaniasWayu
+  license:
+    name: MIT
+
+servers:
+  - url: http://localhost:3000/api
+    description: Servidor de desarrollo local
+
+tags:
+  - name: Productos
+    description: Operaciones sobre el catálogo de productos
+
+paths:
+  /products:
+    get:
+      tags: [Productos]
+      summary: Lista el catálogo de productos
+      description: Devuelve los productos activos con filtros y paginación opcionales.
+      parameters:
+        - name: categoria
+          in: query
+          description: Filtra por categoría
+          schema:
+            type: string
+            enum: [mochilas, sombreros, lanchetas, bebidas, souvenirs, otros]
+        - name: buscar
+          in: query
+          description: Búsqueda de texto sobre nombre y descripción
+          schema:
+            type: string
+          example: guajira
+        - name: limite
+          in: query
+          description: Número de productos por página
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+        - name: pagina
+          in: query
+          description: Número de página
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+      responses:
+        '200':
+          description: Listado obtenido correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  total:
+                    type: integer
+                    example: 5
+                  pagina:
+                    type: integer
+                    example: 1
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Producto'
+
+    post:
+      tags: [Productos]
+      summary: Crea un producto
+      description: Registra un nuevo producto en el catálogo. Requiere rol de administrador.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductoInput'
+      responses:
+        '201':
+          description: Producto creado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Producto'
+        '400':
+          $ref: '#/components/responses/ErrorValidacion'
+
+  /products/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: Identificador del producto (ObjectId de MongoDB)
+        schema:
+          type: string
+          pattern: '^[0-9a-fA-F]{24}$'
+        example: 6aaefa31db318b316d914448
+
+    get:
+      tags: [Productos]
+      summary: Obtiene un producto por su identificador
+      responses:
+        '200':
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Producto'
+        '400':
+          $ref: '#/components/responses/ErrorIdInvalido'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+
+    put:
+      tags: [Productos]
+      summary: Actualiza un producto
+      description: |
+        Modifica los campos enviados y conserva los omitidos.
+        Requiere rol de administrador.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductoInput'
+      responses:
+        '200':
+          description: Producto actualizado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Producto'
+        '400':
+          $ref: '#/components/responses/ErrorValidacion'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+
+    delete:
+      tags: [Productos]
+      summary: Desactiva un producto
+      description: |
+        Realiza una baja lógica estableciendo el campo `activo` en `false`.
+        El documento se conserva para mantener la integridad de los pedidos
+        históricos que lo referencian. Requiere rol de administrador.
+      responses:
+        '200':
+          description: Producto desactivado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Producto desactivado correctamente
+        '400':
+          $ref: '#/components/responses/ErrorIdInvalido'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+
+components:
+  schemas:
+    Producto:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 6aaefa31db318b316d914448
+        nombre:
+          type: string
+          maxLength: 120
+          example: Mochila Wayú tradicional
+        descripcion:
+          type: string
+          maxLength: 1000
+          example: Tejida a mano en La Guajira con técnica de crochet.
+        precio:
+          type: number
+          minimum: 0
+          example: 180000
+        stock:
+          type: integer
+          minimum: 0
+          example: 8
+        categoria:
+          type: string
+          enum: [mochilas, sombreros, lanchetas, bebidas, souvenirs, otros]
+          example: mochilas
+        imagenes:
+          type: array
+          items:
+            type: string
+            format: uri
+          example: []
+        artesano:
+          type: string
+          example: Comunidad Wayú
+        material:
+          type: string
+          example: Hilo de algodón
+        origen:
+          type: string
+          example: La Guajira
+        activo:
+          type: boolean
+          default: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    ProductoInput:
+      type: object
+      required: [nombre, descripcion, precio, categoria]
+      properties:
+        nombre:
+          type: string
+          maxLength: 120
+          example: Sombrero vueltiao 21 vueltas
+        descripcion:
+          type: string
+          maxLength: 1000
+          example: Tejido artesanal en caña flecha, originario de Córdoba.
+        precio:
+          type: number
+          minimum: 0
+          example: 250000
+        stock:
+          type: integer
+          minimum: 0
+          default: 0
+          example: 5
+        categoria:
+          type: string
+          enum: [mochilas, sombreros, lanchetas, bebidas, souvenirs, otros]
+          example: sombreros
+        imagenes:
+          type: array
+          items:
+            type: string
+            format: uri
+        artesano:
+          type: string
+        material:
+          type: string
+          example: Caña flecha
+        origen:
+          type: string
+          example: Córdoba
+
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+
+  responses:
+    ErrorValidacion:
+      description: Los datos enviados no superan las validaciones del esquema
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            campoRequerido:
+              summary: Campo obligatorio ausente
+              value:
+                success: false
+                message: El precio es obligatorio
+            categoriaInvalida:
+              summary: Categoría fuera del conjunto permitido
+              value:
+                success: false
+                message: zapatos no es una categoría válida
+
+    ErrorIdInvalido:
+      description: El identificador no tiene el formato de un ObjectId
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            message: El identificador proporcionado no es válido
+
+    NoEncontrado:
+      description: No existe un producto con ese identificador
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            message: Producto no encontrado
