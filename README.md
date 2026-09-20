@@ -1,4 +1,4 @@
-# 🧺 Artesanías Wayú — E-commerce
+# 🧺 Artesanías y café Luci — E-commerce
 
 Plataforma de comercio electrónico full-stack para **Artesanías Wayú**, un negocio local
 ubicado en Bogotá, Colombia, dedicado a la venta de productos artesanales de marca colombiana:
