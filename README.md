@@ -1,8 +1,9 @@
-# 🧺 Artesanías y café Luci — E-commerce
+# ☕ Artesanías y Café Luci — E-commerce
 
-Plataforma de comercio electrónico full-stack para **Artesanías café y Luci**, un negocio local
-ubicado en Bogotá, Colombia, dedicado a la venta de productos artesanales de marca colombiana:
-sombreros, mochilas, lanchetas, bebidas y artesanías hechas a mano.
+Plataforma de comercio electrónico full-stack para **Artesanías y Café Luci**, un negocio
+local ubicado en Bogotá D.C., Colombia, dedicado a la venta de productos artesanales de
+marca colombiana —mochilas wayú, sombreros vueltiaos, lanchetas y souvenirs— junto a café
+de origen.
 
 El objetivo del proyecto es ofrecer a los clientes un canal de venta en línea que permita
 explorar el catálogo, gestionar un carrito de compras y completar transacciones de forma
@@ -15,6 +16,7 @@ segura mediante la pasarela de pagos PSE.
 ## 📋 Tabla de contenidos
 
 - [Descripción del proyecto](#-descripción-del-proyecto)
+- [Estado del desarrollo](#-estado-del-desarrollo)
 - [Requerimientos funcionales](#-requerimientos-funcionales)
 - [Requerimientos no funcionales](#-requerimientos-no-funcionales)
 - [Stack tecnológico](#-stack-tecnológico)
@@ -24,7 +26,8 @@ segura mediante la pasarela de pagos PSE.
 - [Instalación](#-instalación)
 - [Variables de entorno](#-variables-de-entorno)
 - [Scripts disponibles](#-scripts-disponibles)
-- [Endpoints de la API](#-endpoints-de-la-api)
+- [Documentación de la API](#-documentación-de-la-api)
+- [Endpoints](#-endpoints)
 - [Seguridad](#-seguridad)
 - [Roadmap](#-roadmap)
 - [Autor](#-autor)
@@ -33,15 +36,11 @@ segura mediante la pasarela de pagos PSE.
 
 ## 📝 Descripción del proyecto
 
-Este proyecto nace de la necesidad de un local comercial en Bogotá, Colombia, de llevar su
-catálogo de artesanías al entorno digital.
+Este proyecto nace de la necesidad de un local comercial en Bogotá de llevar su catálogo
+al entorno digital. Actualmente la venta se realiza únicamente de forma presencial, lo que
+limita el alcance del negocio a los clientes que visitan físicamente el local.
 
-Actualmente la venta se realiza únicamente de forma presencial, lo que limita el alcance del
-negocio a los clientes que visitan físicamente el local. La plataforma busca resolver esa
-limitación mediante una aplicación web responsiva que funcione tanto en computador como en
-dispositivos móviles.
-
-**Funcionalidades principales:**
+**Funcionalidades previstas:**
 
 - Catálogo dinámico de productos organizado por categorías
 - Carrito de compras interactivo
@@ -50,6 +49,24 @@ dispositivos móviles.
 - Panel de administración para la gestión de inventario y precios
 - Envío automático de factura electrónica al completar una compra
 - Integración con la pasarela de pagos PSE (Colombia)
+
+---
+
+## 🚧 Estado del desarrollo
+
+| Área | Estado |
+|------|--------|
+| Servidor Express y conexión a MongoDB Atlas | ✅ Completado |
+| Modelo de datos y validaciones | ✅ Completado |
+| API REST del catálogo (CRUD) | ✅ Completado |
+| Especificación OpenAPI 3.0 y Swagger UI | ✅ Completado |
+| Interfaz: página de inicio y estilos globales | 🔄 En progreso |
+| Catálogo dinámico en el cliente | ⏳ Pendiente |
+| Carrito de compras | ⏳ Pendiente |
+| Autenticación (JWT + Google OAuth) | ⏳ Pendiente |
+| Panel de administración | ⏳ Pendiente |
+| Integración con PSE | ⏳ Pendiente |
+| Despliegue | ⏳ Pendiente |
 
 ---
 
@@ -77,16 +94,6 @@ dispositivos móviles.
 | **RNF-04** | Seguridad | La plataforma debe operar sobre HTTPS para proteger los datos durante el proceso de pago. |
 | **RNF-05** | Usabilidad | Las interfaces deben ser completamente responsivas y visualizarse correctamente tanto en computador como en dispositivos móviles. |
 
-### Estrategia técnica para cumplir los requerimientos no funcionales
-
-| Requerimiento | Implementación prevista |
-|---------------|------------------------|
-| RNF-01 — Disponibilidad | Despliegue en proveedor cloud con monitoreo de uptime; MongoDB Atlas como base de datos gestionada |
-| RNF-02 — Rendimiento | Imágenes alojadas en Cloudinary con optimización automática, formatos modernos y carga diferida (*lazy loading*) |
-| RNF-03 — Encriptación | Hashing de contraseñas con `bcrypt` antes de persistir en la base de datos |
-| RNF-04 — HTTPS | Certificado SSL provisto por la plataforma de despliegue; redirección forzada de HTTP a HTTPS |
-| RNF-05 — Responsividad | CSS con enfoque *mobile first*, unidades relativas y *media queries* |
-
 ---
 
 ## 🛠 Stack tecnológico
@@ -100,6 +107,8 @@ dispositivos móviles.
 | Correo electrónico | Nodemailer |
 | Almacenamiento de imágenes | Cloudinary |
 | Pasarela de pagos | PSE (Colombia) |
+| Documentación de la API | OpenAPI 3.0 + Swagger UI |
+| Pruebas de la API | Thunder Client |
 | Arquitectura | MVC (Modelo–Vista–Controlador) |
 | Control de versiones | Git / GitHub |
 
@@ -108,15 +117,17 @@ dispositivos móviles.
 ## 📂 Arquitectura del proyecto
 
 ```
-artesanias-wayu/
+E-commerce_cafe_y_Luci/
 ├── backend/
 │   ├── config/
 │   │   ├── db.js                    # Conexión a MongoDB Atlas (Mongoose)
 │   │   ├── passport.js              # Estrategia de autenticación con Google OAuth
 │   │   ├── cloudinary.js            # Configuración de subida de imágenes
 │   │   └── mailer.js                # Configuración del servicio de correo (Nodemailer)
+│   ├── docs/
+│   │   └── openapi.yaml             # Especificación OpenAPI 3.0 de la API
 │   ├── models/
-│   │   ├── Product.js               # Esquema de productos (sombreros, mochilas, bebidas)
+│   │   ├── Product.js               # Esquema de productos
 │   │   ├── User.js                  # Esquema de usuarios (login local y con Google)
 │   │   ├── Order.js                 # Esquema de órdenes/pedidos
 │   │   └── Cart.js                  # Esquema del carrito de compras
@@ -203,8 +214,8 @@ artesanias-wayu/
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/TU_USUARIO/artesanias-wayu.git
-cd artesanias-wayu
+git clone https://github.com/KitsuXSTL/E-commerce_cafe_y_Luci.git
+cd E-commerce_cafe_y_Luci
 
 # 2. Instalar dependencias
 npm install
@@ -231,7 +242,7 @@ Crea un archivo `backend/.env` basado en `backend/.env.example`:
 PORT=3000
 
 # Base de datos
-MONGO_URI=mongodb+srv://usuario:password@cluster.mongodb.net/artesanias_wayu
+MONGO_URI=mongodb+srv://usuario:password@cluster.mongodb.net/nombre_base_datos
 
 # Autenticación
 JWT_SECRET=cadena_larga_y_aleatoria
@@ -267,17 +278,44 @@ npm start        # Inicia el servidor en modo producción
 
 ---
 
-## 🔌 Endpoints de la API
+## 📖 Documentación de la API
+
+La API cuenta con una especificación formal en formato **OpenAPI 3.0**, ubicada en
+`backend/docs/openapi.yaml`.
+
+Con el servidor en ejecución, la documentación interactiva está disponible en:
+
+```
+http://localhost:3000/api/docs
+```
+
+Desde esa interfaz es posible consultar los esquemas de datos, los parámetros admitidos
+por cada operación y ejecutar peticiones de prueba contra el servidor.
+
+---
+
+## 🔌 Endpoints
 
 ### Productos
 
 | Método | Ruta | Descripción | Acceso |
 |--------|------|-------------|--------|
-| `GET` | `/api/products` | Lista todos los productos | Público |
+| `GET` | `/api/products` | Lista el catálogo con filtros y paginación | Público |
 | `GET` | `/api/products/:id` | Detalle de un producto | Público |
 | `POST` | `/api/products` | Crea un producto | Admin |
 | `PUT` | `/api/products/:id` | Actualiza un producto | Admin |
-| `DELETE` | `/api/products/:id` | Elimina un producto | Admin |
+| `DELETE` | `/api/products/:id` | Desactiva un producto (baja lógica) | Admin |
+
+**Parámetros de consulta admitidos en el listado:**
+
+| Parámetro | Descripción | Valor por defecto |
+|-----------|-------------|-------------------|
+| `categoria` | Filtra por categoría | — |
+| `buscar` | Búsqueda de texto sobre nombre y descripción | — |
+| `limite` | Productos por página | 20 |
+| `pagina` | Número de página | 1 |
+
+**Categorías disponibles:** `mochilas`, `sombreros`, `lanchetas`, `bebidas`, `souvenirs`, `otros`
 
 ### Autenticación
 
@@ -317,6 +355,7 @@ npm start        # Inicia el servidor en modo producción
 - Control de acceso por roles (`cliente` / `admin`)
 - Variables sensibles gestionadas mediante `.env` (excluido del repositorio)
 - Validación de datos de entrada en todas las rutas
+- Eliminación de productos mediante baja lógica, preservando la integridad de los pedidos históricos
 - Comunicación cifrada mediante **HTTPS** en el entorno de producción
 - Restricción de IP en MongoDB Atlas para el entorno de producción
 
@@ -324,16 +363,16 @@ npm start        # Inicia el servidor en modo producción
 
 ## 🗺 Roadmap
 
-| Semana | Entregable | Requerimientos cubiertos |
-|--------|-----------|--------------------------|
-| 1 | Configuración del repositorio, entorno y conexión a MongoDB Atlas | — |
-| 2 | CRUD de productos (API REST) | RF-01 |
-| 3 | Frontend: catálogo dinámico | RNF-02, RNF-05 |
-| 4 | Carrito de compras | RF-06 |
-| 5 | Autenticación JWT, Google OAuth y verificación por correo | RF-04, RF-07, RNF-03 |
+| Semana | Entregable | Requerimientos |
+|--------|-----------|----------------|
+| 1 | Configuración del repositorio, entorno y conexión con MongoDB Atlas | — |
+| 2 | CRUD de productos mediante API REST y especificación OpenAPI 3.0 | RF-01 |
+| 3 | Interfaz del catálogo dinámico | RNF-02, RNF-05 |
+| 4 | Carrito de compras interactivo | RF-06 |
+| 5 | Autenticación con JWT, Google OAuth y verificación por correo | RF-04, RF-07, RNF-03 |
 | 6 | Panel de administración e integración con Cloudinary | RF-03 |
-| 7 | Pedidos, checkout, envío de factura e integración PSE | RF-02, RF-05 |
-| 8 | Seguridad final, diseño responsivo y despliegue | RNF-01, RNF-04 |
+| 7 | Gestión de pedidos, checkout e integración con PSE | RF-02, RF-05 |
+| 8 | Revisión de seguridad, diseño responsivo y despliegue | RNF-01, RNF-04 |
 
 ---
 
