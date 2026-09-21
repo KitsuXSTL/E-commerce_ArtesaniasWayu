@@ -1,6 +1,6 @@
-# ☕ Artesanías y Café Luci — E-commerce
+# ☕ Artesanías Café and Luci — E-commerce
 
-Full-stack e-commerce platform for **Artesanías y Café Luci**, a local business in
+Full-stack e-commerce platform for **Artesanías Café and Luci**, a local business in
 Bogotá D.C., Colombia, selling Colombian handicrafts — wayú bags, vueltiao hats,
 lanchetas and souvenirs — alongside single-origin coffee.
 
