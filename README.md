@@ -1,4 +1,4 @@
-# ☕ Artesanías y Café Luci — E-commerce
+# ☕ Artesanías Café y Luci — E-commerce
 
 Plataforma de comercio electrónico full-stack para **Artesanías Café y Luci**, un negocio
 local ubicado en Bogotá D.C., Colombia, dedicado a la venta de productos artesanales de
